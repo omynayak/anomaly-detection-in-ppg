@@ -2,4 +2,3 @@ streamlit==1.46.0
 numpy
 sklearn
 matplotlib
-csv
