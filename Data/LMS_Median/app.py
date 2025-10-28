@@ -8,6 +8,9 @@ st.title("Isolation forest plot")
 fileNo = st.number_input("Enter the file number(0-22) : ",min_value=0, max_value=22, value=0)
 fileName = f"final_{fileNo}_ppg"
 
+estimator = st.number_input("Enter the number of trees: ",min_value=100, max_value=600, value=100)
+cont = st.number_input("Enter the contamination: ", min_value=0.001, max_value=1.00)
+
 data = []
 timeStamps = []
 with open(f"Data/LMS_Median/{fileName}.csv", "r") as file:
