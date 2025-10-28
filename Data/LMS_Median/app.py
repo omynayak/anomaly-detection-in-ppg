@@ -57,8 +57,7 @@ features = np.array([extract_features(s, fs) for s in segments])
 print(features.shape)  
 
 
-estimator = 500
-cont = 0.0125
+
 rs = 42
 clf = IsolationForest(
     n_estimators=estimator,
