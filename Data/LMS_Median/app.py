@@ -12,7 +12,7 @@ estimator = st.number_input("Enter the number of trees: ",min_value=100, max_val
 cont = st.number_input(
     "Enter the contamination: ",
     min_value=0.001,
-    max_value=1.000,
+    max_value=0.500,
     value=0.010,
     step=0.001,
     format="%.3f"
