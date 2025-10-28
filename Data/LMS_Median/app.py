@@ -10,7 +10,7 @@ fileName = f"final_{fileNo}_ppg"
 
 data = []
 timeStamps = []
-with open(f"{fileName}.csv", "r") as file:
+with open(f"Data/LMS_Median/{fileName}.csv", "r") as file:
     stuff = csv.reader(file)
 
     next(stuff)
