@@ -9,7 +9,15 @@ fileNo = st.number_input("Enter the file number(0-22) : ",min_value=0, max_value
 fileName = f"final_{fileNo}_ppg"
 
 estimator = st.number_input("Enter the number of trees: ",min_value=100, max_value=600, value=100)
-cont = st.number_input("Enter the contamination: ", min_value=0.001, max_value=1.00)
+cont = st.number_input(
+    "Enter the contamination: ",
+    min_value=0.001,
+    max_value=1.000,
+    value=0.010,
+    step=0.001,
+    format="%.3f"
+)
+
 
 data = []
 timeStamps = []
