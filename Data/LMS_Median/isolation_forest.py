@@ -1,30 +1,14 @@
 import csv
-import matplotlib.pyplot as plt
+import numpy as np
 from sklearn.preprocessing import StandardScaler
 from sklearn.ensemble import IsolationForest
-import numpy as np
 
-file_name = "final_14_ppg"
+fileName = f"final_0_ppg"
 
-timeStamps = []
-data  = []
-
-with open(f"{file_name}.csv", "r") as file:
-    reader = csv.reader(file)
-    next(reader)
-
-    for row in reader:
-        timeStamps.append(int(row[0]))
-        data.append(float(row[1]))
-
-plt.figure()
-plt.plot(timeStamps, data)
-plt.grid()
-plt.show()
 
 data = []
 timeStamps = []
-with open(f"{file_name}.csv", "r") as file:
+with open(f"{fileName}.csv", "r") as file:
     stuff = csv.reader(file)
 
     next(stuff)
@@ -68,7 +52,8 @@ features = np.array([extract_features(s, fs) for s in segments])
 print(features.shape)  
 
 
-
+estimator = 1000
+cont = 0.010
 rs = 42
 clf = IsolationForest(
     n_estimators=500,
@@ -82,21 +67,23 @@ scores = clf.decision_function(features)
 import matplotlib.pyplot as plt
 
 anomaly_indices = np.where(preds == -1)[0]
-segment_centers = [timeStamps[start + window_size // 2] for start in range(0, len(ppg_norm) - window_size, stride)]
+anomaly_times = [timeStamps[i * stride] for i in anomaly_indices]
 
-# Now map anomaly_indices to these centers
-anomaly_times = [segment_centers[i] for i in anomaly_indices]
+fig,ax = plt.subplots()
+ax.scatter(anomaly_times, ppg_norm[anomaly_indices * stride], color='r', label="Anomalies")
+ax.plot(timeStamps, ppg_norm, label="Normalized PPG", alpha=0.7)
+ax.legend()
+ax.set_xlabel("Time(ms)")
+ax.set_ylabel("PPG")
+ax.set_title(f"Total Trees: {estimator}, Contamination: {cont}")
+ax.grid()
 
-# Plot anomalies
-plt.figure(figsize=(10, 4))
-plt.plot(timeStamps, ppg_norm, label="Normalized PPG", alpha=0.7)
-plt.stem(anomaly_times, np.ones_like(anomaly_times) * np.min(ppg_norm), 'r', label="Anomalies")
-plt.legend()
-plt.grid()
-plt.show()
+fig2,ax2 = plt.subplots()
+ax2.plot(timeStamps, data)
+ax2.legend()
+ax2.set_xlabel("Time(ms)")
+ax2.set_ylabel("PPG")
+ax2.set_title("Raw PPG Data")
+ax2.grid()
 
-plt.figure()
-plt.stem(anomaly_times, ppg_norm[anomaly_indices * stride], color='r', label="Anomalies")
-plt.plot(timeStamps, ppg_norm, label="Normalized PPG", alpha=0.7)
-plt.grid()
 plt.show()
